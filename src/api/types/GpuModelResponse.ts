@@ -3,8 +3,8 @@
  */
 
 export interface GpuModelResponse {
-    /** The FluidStack name of the GPU model */
+    /** The FluidStack unique name of the GPU model. */
     name: string;
-    /** Memory capacity of the GPU in megabytes */
-    memorySizeMb?: number;
+    /** Memory capacity of the GPU in gigabytes. */
+    memorySizeGb?: number;
 }

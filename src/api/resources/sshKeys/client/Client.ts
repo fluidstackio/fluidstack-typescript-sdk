@@ -26,7 +26,7 @@ export class SshKeys {
     constructor(protected readonly _options: SshKeys.Options = {}) {}
 
     /**
-     * Fetch a list of SSH keys associated with the authenticated user.
+     * Fetch a list of SSH key names associated with the authenticated user.
      *
      * @param {SshKeys.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -50,7 +50,7 @@ export class SshKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -114,9 +114,9 @@ export class SshKeys {
     /**
      * Create a new SSH key for the authenticated user.
      *
-     * You must provide a unique name for the SSH key, along with a public key. The public key you provide will be duplicated on your FluidStack account for use as as an SSH key.
+     * A unique name must be provided for the SSH key, along with a public key. The public key you provide is stored on your FluidStack account for use in SSH authentication.
      *
-     * <Note>Supported public key formats: ssh-rsa, ssh-dss (DSA), ssh-ed25519, ecdsa keys with NIST curves</Note>
+     * Supported public key formats: ssh-rsa, ssh-dss (DSA), ssh-ed25519, and ecdsa keys with NIST curves.
      *
      * @param {FluidStackApi.CreateSshKeyRequest} request
      * @param {SshKeys.RequestOptions} requestOptions - Request-specific configuration.
@@ -126,8 +126,8 @@ export class SshKeys {
      *
      * @example
      *     await fluidStackApi.sshKeys.create({
-     *         name: "mykey",
-     *         publicKey: "<public_key>"
+     *         name: "my_ssh_key",
+     *         publicKey: "<my_public_key>"
      *     })
      */
     public async create(
@@ -147,7 +147,7 @@ export class SshKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -210,7 +210,7 @@ export class SshKeys {
     }
 
     /**
-     * Delete an existing SSH key using the SSH key name.
+     * Delete an existing SSH key by its name.
      *
      * @param {string} sshKeyName
      * @param {SshKeys.RequestOptions} requestOptions - Request-specific configuration.
@@ -219,9 +219,9 @@ export class SshKeys {
      * @throws {@link FluidStackApi.UnprocessableEntityError}
      *
      * @example
-     *     await fluidStackApi.sshKeys.delete("my_key")
+     *     await fluidStackApi.sshKeys.delete("{ssh_key_name}")
      */
-    public async delete(sshKeyName: string, requestOptions?: SshKeys.RequestOptions): Promise<void> {
+    public async delete(sshKeyName: string, requestOptions?: SshKeys.RequestOptions): Promise<unknown> {
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FluidStackApiEnvironment.Default,
@@ -235,7 +235,7 @@ export class SshKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -245,7 +245,7 @@ export class SshKeys {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return;
+            return _response.body;
         }
 
         if (_response.error.reason === "status-code") {

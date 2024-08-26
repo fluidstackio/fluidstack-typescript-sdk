@@ -8,9 +8,9 @@ import * as core from "../../core";
 import { InstanceStatus } from "./InstanceStatus";
 import { ConfigurationInstanceResponse } from "./ConfigurationInstanceResponse";
 
-export const ListInstanceResponse: core.serialization.ObjectSchema<
-    serializers.ListInstanceResponse.Raw,
-    FluidStackApi.ListInstanceResponse
+export const InstanceResponse: core.serialization.ObjectSchema<
+    serializers.InstanceResponse.Raw,
+    FluidStackApi.InstanceResponse
 > = core.serialization.object({
     id: core.serialization.string(),
     status: InstanceStatus.optional(),
@@ -24,7 +24,7 @@ export const ListInstanceResponse: core.serialization.ObjectSchema<
     createdAt: core.serialization.property("created_at", core.serialization.date().optional()),
 });
 
-export declare namespace ListInstanceResponse {
+export declare namespace InstanceResponse {
     interface Raw {
         id: string;
         status?: InstanceStatus.Raw | null;

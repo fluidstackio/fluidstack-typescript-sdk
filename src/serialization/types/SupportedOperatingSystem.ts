@@ -9,13 +9,8 @@ import * as core from "../../core";
 export const SupportedOperatingSystem: core.serialization.Schema<
     serializers.SupportedOperatingSystem.Raw,
     FluidStackApi.SupportedOperatingSystem
-> = core.serialization.enum_([
-    "ubuntu_22_04_lts",
-    "ubuntu_20_04_lts",
-    "ubuntu_20_04_lts_nvidia",
-    "ubuntu_22_04_lts_nvidia",
-]);
+> = core.serialization.enum_(["ubuntu_20_04_lts_nvidia", "ubuntu_22_04_lts_nvidia"]);
 
 export declare namespace SupportedOperatingSystem {
-    type Raw = "ubuntu_22_04_lts" | "ubuntu_20_04_lts" | "ubuntu_20_04_lts_nvidia" | "ubuntu_22_04_lts_nvidia";
+    type Raw = "ubuntu_20_04_lts_nvidia" | "ubuntu_22_04_lts_nvidia";
 }

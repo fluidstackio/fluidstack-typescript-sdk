@@ -26,7 +26,7 @@ export class Configurations {
     constructor(protected readonly _options: Configurations.Options = {}) {}
 
     /**
-     * List available configurations including GPU type, GPU count, RAM size and disk size.
+     * List available configurations including GPU type, GPU count, RAM size, and disk size.
      *
      * @param {Configurations.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -50,7 +50,7 @@ export class Configurations {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },

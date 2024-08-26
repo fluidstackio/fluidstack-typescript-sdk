@@ -5,18 +5,13 @@
 import * as FluidStackApi from "../index";
 
 export interface ConfigurationResponse {
-    id: FluidStackApi.ConfigId;
-    /** The GPU model of the configuration */
-    gpuModel?: FluidStackApi.GpuModelResponse;
-    /** The CPU model of the configuration */
-    cpuModel?: string;
-    /** The number of GPUs in the configuration */
-    gpuCount: number;
-    /** The number of CPUs in the configuration */
-    cpuCount: number;
-    /** The size of NVMe in the configuration */
-    nvmeStorageSizeGb: number;
-    /** The amount of RAM memory in the configuration */
-    memorySizeMb: number;
+    /** The GPU type of the configuration. */
+    gpuType: FluidStackApi.GpuType;
+    /** The number of GPUs in the configuration. */
+    gpuCounts: number[];
+    /** The price per GPU hour of the configuration. */
+    pricePerGpuHr: string;
     estimatedProvisioningTimeMinutes?: number;
+    /** The regions the configuration is available in. */
+    regions: FluidStackApi.Region[];
 }

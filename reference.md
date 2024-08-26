@@ -89,9 +89,9 @@ await fluidStackApi.instances.list();
 
 <dd>
 
-This endpoint is used to create a new instance. You must provide a name for the instance, the gpu_type, and a list of SSH key names.
+This endpoint is used to create a new instance. You must provide a custom `name` for the instance, its `gpu_type`, and the name of its `ssh_key`.
 
-If you do not provide values for gpu_count and operating_system_label when calling this endpoint, the default values of 1 and 'ubuntu_20_04_lts' are used respectively.
+If no values are provided for the `gpu_count` and `operating_system_label`, the default values of `1` and `ubuntu_20_04_lts_nvidia` are used respectively.
 
 </dd>
 
@@ -113,9 +113,10 @@ If you do not provide values for gpu_count and operating_system_label when calli
 
 ```ts
 await fluidStackApi.instances.create({
-    name: "name",
-    gpuType: FluidStackApi.GpuType.RtxA400016Gb,
-    sshKeys: ["<ssh_key_name>"],
+    name: "my_instance_name",
+    gpuType: FluidStackApi.GpuType.RtxA500024Gb,
+    sshKey: "my_ssh_key",
+    operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia,
 });
 ```
 
@@ -162,7 +163,7 @@ await fluidStackApi.instances.create({
 </dl>
 </details>
 
-<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">stop</a>(instanceId) -> FluidStackApi.ListInstanceResponse</code> </summary>
+<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">get</a>(instanceId) -> FluidStackApi.InstanceResponse</code> </summary>
 
 <dl>
 
@@ -178,7 +179,7 @@ await fluidStackApi.instances.create({
 
 <dd>
 
-This endpoint can be used to stop an existing instance by its ID.
+This endpoint is used to retrieve a single instance associated with the authenticated user by its ID.
 
 </dd>
 
@@ -199,7 +200,173 @@ This endpoint can be used to stop an existing instance by its ID.
 <dd>
 
 ```ts
-await fluidStackApi.instances.stop("instance_id");
+await fluidStackApi.instances.get("{instance_id}");
+```
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+
+<dd>
+
+<dl>
+
+<dd>
+
+**instanceId: `string`**
+
+</dd>
+
+</dl>
+
+<dl>
+
+<dd>
+
+**requestOptions: `Instances.RequestOptions`**
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+</details>
+
+<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">delete</a>(instanceId) -> unknown</code> </summary>
+
+<dl>
+
+<dd>
+
+#### 📝 Description
+
+<dl>
+
+<dd>
+
+<dl>
+
+<dd>
+
+This endpoint is used to terminate an existing instance by its ID.
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+
+<dd>
+
+<dl>
+
+<dd>
+
+```ts
+await fluidStackApi.instances.delete("{instance_id}");
+```
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+
+<dd>
+
+<dl>
+
+<dd>
+
+**instanceId: `string`**
+
+</dd>
+
+</dl>
+
+<dl>
+
+<dd>
+
+**requestOptions: `Instances.RequestOptions`**
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+</details>
+
+<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">stop</a>(instanceId) -> FluidStackApi.ListInstanceResponse</code> </summary>
+
+<dl>
+
+<dd>
+
+#### 📝 Description
+
+<dl>
+
+<dd>
+
+<dl>
+
+<dd>
+
+This endpoint is used to stop an existing instance by its ID.
+
+</dd>
+
+</dl>
+
+</dd>
+
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+
+<dd>
+
+<dl>
+
+<dd>
+
+```ts
+await fluidStackApi.instances.stop("{instance_id}");
 ```
 
 </dd>
@@ -261,7 +428,7 @@ await fluidStackApi.instances.stop("instance_id");
 
 <dd>
 
-This endpoint can be used to start an existing instance by its ID.
+This endpoint is used to start an existing instance by its ID.
 
 </dd>
 
@@ -282,90 +449,7 @@ This endpoint can be used to start an existing instance by its ID.
 <dd>
 
 ```ts
-await fluidStackApi.instances.start("instance_id");
-```
-
-</dd>
-
-</dl>
-
-</dd>
-
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-
-<dd>
-
-<dl>
-
-<dd>
-
-**instanceId: `string`**
-
-</dd>
-
-</dl>
-
-<dl>
-
-<dd>
-
-**requestOptions: `Instances.RequestOptions`**
-
-</dd>
-
-</dl>
-
-</dd>
-
-</dl>
-
-</dd>
-
-</dl>
-</details>
-
-<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">delete</a>(instanceId) -> void</code> </summary>
-
-<dl>
-
-<dd>
-
-#### 📝 Description
-
-<dl>
-
-<dd>
-
-<dl>
-
-<dd>
-
-This endpoint can be used to terminate an existing instance by its ID.
-
-</dd>
-
-</dl>
-
-</dd>
-
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-
-<dd>
-
-<dl>
-
-<dd>
-
-```ts
-await fluidStackApi.instances.delete("instance_id");
+await fluidStackApi.instances.start("{instance_id}");
 ```
 
 </dd>
@@ -429,7 +513,7 @@ await fluidStackApi.instances.delete("instance_id");
 
 <dd>
 
-Fetch a list of SSH keys associated with the authenticated user.
+Fetch a list of SSH key names associated with the authenticated user.
 
 </dd>
 
@@ -504,9 +588,9 @@ await fluidStackApi.sshKeys.list();
 
 Create a new SSH key for the authenticated user.
 
-You must provide a unique name for the SSH key, along with a public key. The public key you provide will be duplicated on your FluidStack account for use as as an SSH key.
+A unique name must be provided for the SSH key, along with a public key. The public key you provide is stored on your FluidStack account for use in SSH authentication.
 
-<Note>Supported public key formats: ssh-rsa, ssh-dss (DSA), ssh-ed25519, ecdsa keys with NIST curves</Note>
+Supported public key formats: ssh-rsa, ssh-dss (DSA), ssh-ed25519, and ecdsa keys with NIST curves.
 
 </dd>
 
@@ -528,8 +612,8 @@ You must provide a unique name for the SSH key, along with a public key. The pub
 
 ```ts
 await fluidStackApi.sshKeys.create({
-    name: "mykey",
-    publicKey: "<public_key>",
+    name: "my_ssh_key",
+    publicKey: "<my_public_key>",
 });
 ```
 
@@ -576,7 +660,7 @@ await fluidStackApi.sshKeys.create({
 </dl>
 </details>
 
-<details><summary> <code>fluidStackApi.sshKeys.<a href="./src/api/resources/sshKeys/client/Client.ts">delete</a>(sshKeyName) -> void</code> </summary>
+<details><summary> <code>fluidStackApi.sshKeys.<a href="./src/api/resources/sshKeys/client/Client.ts">delete</a>(sshKeyName) -> unknown</code> </summary>
 
 <dl>
 
@@ -592,7 +676,7 @@ await fluidStackApi.sshKeys.create({
 
 <dd>
 
-Delete an existing SSH key using the SSH key name.
+Delete an existing SSH key by its name.
 
 </dd>
 
@@ -613,7 +697,7 @@ Delete an existing SSH key using the SSH key name.
 <dd>
 
 ```ts
-await fluidStackApi.sshKeys.delete("my_key");
+await fluidStackApi.sshKeys.delete("{ssh_key_name}");
 ```
 
 </dd>
@@ -677,7 +761,7 @@ await fluidStackApi.sshKeys.delete("my_key");
 
 <dd>
 
-List available configurations including GPU type, GPU count, RAM size and disk size.
+List available configurations including GPU type, GPU count, RAM size, and disk size.
 
 </dd>
 
@@ -752,7 +836,7 @@ await fluidStackApi.configurations.list();
 
 <dd>
 
-List available OS template images. Use the label to create an instance.
+List available OS template images. Use the `label` for your desired template as the `operating_system_label` when you create an instance.
 
 </dd>
 

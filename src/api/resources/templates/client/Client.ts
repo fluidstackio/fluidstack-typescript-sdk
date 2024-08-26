@@ -26,7 +26,7 @@ export class Templates {
     constructor(protected readonly _options: Templates.Options = {}) {}
 
     /**
-     * List available OS template images. Use the label to create an instance.
+     * List available OS template images. Use the `label` for your desired template as the `operating_system_label` when you create an instance.
      *
      * @param {Templates.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -50,7 +50,7 @@ export class Templates {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },

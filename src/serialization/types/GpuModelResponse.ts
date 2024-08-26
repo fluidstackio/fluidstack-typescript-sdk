@@ -11,12 +11,12 @@ export const GpuModelResponse: core.serialization.ObjectSchema<
     FluidStackApi.GpuModelResponse
 > = core.serialization.object({
     name: core.serialization.string(),
-    memorySizeMb: core.serialization.property("memory_size_mb", core.serialization.number().optional()),
+    memorySizeGb: core.serialization.property("memory_size_gb", core.serialization.number().optional()),
 });
 
 export declare namespace GpuModelResponse {
     interface Raw {
         name: string;
-        memory_size_mb?: number | null;
+        memory_size_gb?: number | null;
     }
 }

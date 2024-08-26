@@ -50,7 +50,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -112,9 +112,9 @@ export class Instances {
     }
 
     /**
-     * This endpoint is used to create a new instance. You must provide a name for the instance, the gpu_type, and a list of SSH key names.
+     * This endpoint is used to create a new instance. You must provide a custom `name` for the instance, its `gpu_type`, and the name of its `ssh_key`.
      *
-     * If you do not provide values for gpu_count and operating_system_label when calling this endpoint, the default values of 1 and 'ubuntu_20_04_lts' are used respectively.
+     * If no values are provided for the `gpu_count` and `operating_system_label`, the default values of `1` and `ubuntu_20_04_lts_nvidia` are used respectively.
      *
      * @param {FluidStackApi.CreateInstanceRequest} request
      * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
@@ -124,9 +124,10 @@ export class Instances {
      *
      * @example
      *     await fluidStackApi.instances.create({
-     *         name: "name",
-     *         gpuType: FluidStackApi.GpuType.RtxA400016Gb,
-     *         sshKeys: ["<ssh_key_name>"]
+     *         name: "my_instance_name",
+     *         gpuType: FluidStackApi.GpuType.RtxA500024Gb,
+     *         sshKey: "my_ssh_key",
+     *         operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia
      *     })
      */
     public async create(
@@ -146,7 +147,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -209,7 +210,7 @@ export class Instances {
     }
 
     /**
-     * This endpoint can be used to stop an existing instance by its ID.
+     * This endpoint is used to retrieve a single instance associated with the authenticated user by its ID.
      *
      * @param {string} instanceId
      * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
@@ -218,7 +219,179 @@ export class Instances {
      * @throws {@link FluidStackApi.UnprocessableEntityError}
      *
      * @example
-     *     await fluidStackApi.instances.stop("instance_id")
+     *     await fluidStackApi.instances.get("{instance_id}")
+     */
+    public async get(
+        instanceId: string,
+        requestOptions?: Instances.RequestOptions
+    ): Promise<FluidStackApi.InstanceResponse> {
+        const _response = await core.fetcher({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.environment)) ?? environments.FluidStackApiEnvironment.Default,
+                `instances/${encodeURIComponent(instanceId)}`
+            ),
+            method: "GET",
+            headers: {
+                "api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "fluidstack",
+                "X-Fern-SDK-Version": "0.0.3",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+            },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return await serializers.InstanceResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new FluidStackApi.UnauthorizedError(
+                        await serializers.Message.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 422:
+                    throw new FluidStackApi.UnprocessableEntityError(
+                        await serializers.HttpValidationError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.FluidStackApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.FluidStackApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.FluidStackApiTimeoutError();
+            case "unknown":
+                throw new errors.FluidStackApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * This endpoint is used to terminate an existing instance by its ID.
+     *
+     * @param {string} instanceId
+     * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link FluidStackApi.UnauthorizedError}
+     * @throws {@link FluidStackApi.UnprocessableEntityError}
+     *
+     * @example
+     *     await fluidStackApi.instances.delete("{instance_id}")
+     */
+    public async delete(instanceId: string, requestOptions?: Instances.RequestOptions): Promise<unknown> {
+        const _response = await core.fetcher({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.environment)) ?? environments.FluidStackApiEnvironment.Default,
+                `instances/${encodeURIComponent(instanceId)}`
+            ),
+            method: "DELETE",
+            headers: {
+                "api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "fluidstack",
+                "X-Fern-SDK-Version": "0.0.3",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+            },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return _response.body;
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new FluidStackApi.UnauthorizedError(
+                        await serializers.Message.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 422:
+                    throw new FluidStackApi.UnprocessableEntityError(
+                        await serializers.HttpValidationError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.FluidStackApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.FluidStackApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.FluidStackApiTimeoutError();
+            case "unknown":
+                throw new errors.FluidStackApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * This endpoint is used to stop an existing instance by its ID.
+     *
+     * @param {string} instanceId
+     * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link FluidStackApi.UnauthorizedError}
+     * @throws {@link FluidStackApi.UnprocessableEntityError}
+     *
+     * @example
+     *     await fluidStackApi.instances.stop("{instance_id}")
      */
     public async stop(
         instanceId: string,
@@ -237,7 +410,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -299,7 +472,7 @@ export class Instances {
     }
 
     /**
-     * This endpoint can be used to start an existing instance by its ID.
+     * This endpoint is used to start an existing instance by its ID.
      *
      * @param {string} instanceId
      * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
@@ -308,7 +481,7 @@ export class Instances {
      * @throws {@link FluidStackApi.UnprocessableEntityError}
      *
      * @example
-     *     await fluidStackApi.instances.start("instance_id")
+     *     await fluidStackApi.instances.start("{instance_id}")
      */
     public async start(
         instanceId: string,
@@ -327,7 +500,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
+                "X-Fern-SDK-Version": "0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -343,88 +516,6 @@ export class Instances {
                 allowUnrecognizedEnumValues: true,
                 breadcrumbsPrefix: ["response"],
             });
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 401:
-                    throw new FluidStackApi.UnauthorizedError(
-                        await serializers.Message.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 422:
-                    throw new FluidStackApi.UnprocessableEntityError(
-                        await serializers.HttpValidationError.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                default:
-                    throw new errors.FluidStackApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.FluidStackApiError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.FluidStackApiTimeoutError();
-            case "unknown":
-                throw new errors.FluidStackApiError({
-                    message: _response.error.errorMessage,
-                });
-        }
-    }
-
-    /**
-     * This endpoint can be used to terminate an existing instance by its ID.
-     *
-     * @param {string} instanceId
-     * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link FluidStackApi.UnauthorizedError}
-     * @throws {@link FluidStackApi.UnprocessableEntityError}
-     *
-     * @example
-     *     await fluidStackApi.instances.delete("instance_id")
-     */
-    public async delete(instanceId: string, requestOptions?: Instances.RequestOptions): Promise<void> {
-        const _response = await core.fetcher({
-            url: urlJoin(
-                (await core.Supplier.get(this._options.environment)) ?? environments.FluidStackApiEnvironment.Default,
-                `instances/${encodeURIComponent(instanceId)}`
-            ),
-            method: "DELETE",
-            headers: {
-                "api-key":
-                    (await core.Supplier.get(this._options.apiKey)) != null
-                        ? await core.Supplier.get(this._options.apiKey)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.2",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-            },
-            contentType: "application/json",
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return;
         }
 
         if (_response.error.reason === "status-code") {

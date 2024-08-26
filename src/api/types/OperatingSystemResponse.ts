@@ -5,10 +5,10 @@
 import * as FluidStackApi from "../index";
 
 export interface OperatingSystemResponse {
-    /** The friendly name of the operating system */
+    /** The friendly name of the operating system. */
     name: string;
-    /** A description of the operating system, detailing the list of pre-installed packages and customizations, if any */
+    /** The description of the operating system, detailing the pre-installed packages and customisations, if any. */
     description?: string;
-    /** The unique slug identifier of the operating system */
+    /** The unique slug identifier of the operating system. */
     label: FluidStackApi.SupportedOperatingSystem;
 }

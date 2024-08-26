@@ -5,13 +5,13 @@
 /**
  * @example
  *     {
- *         name: "mykey",
- *         publicKey: "<public_key>"
+ *         name: "my_ssh_key",
+ *         publicKey: "<my_public_key>"
  *     }
  */
 export interface CreateSshKeyRequest {
-    /** The name of the SSH key */
+    /** The name of the SSH key. */
     name: string;
-    /** The public key of the SSH key */
+    /** The public key of the SSH key. */
     publicKey: string;
 }

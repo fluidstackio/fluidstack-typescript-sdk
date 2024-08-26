@@ -6,9 +6,9 @@ import * as serializers from "../index";
 import * as FluidStackApi from "../../api/index";
 import * as core from "../../core";
 
-export const ConfigId: core.serialization.Schema<serializers.ConfigId.Raw, FluidStackApi.ConfigId> =
+export const EntityId: core.serialization.Schema<serializers.EntityId.Raw, FluidStackApi.EntityId> =
     core.serialization.string();
 
-export declare namespace ConfigId {
+export declare namespace EntityId {
     type Raw = string;
 }

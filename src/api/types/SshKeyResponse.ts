@@ -3,8 +3,8 @@
  */
 
 export interface SshKeyResponse {
-    /** The name of the SSH key */
+    /** The name of the SSH key. */
     name: string;
-    /** The public key */
+    /** The public key. */
     publicKey?: string;
 }

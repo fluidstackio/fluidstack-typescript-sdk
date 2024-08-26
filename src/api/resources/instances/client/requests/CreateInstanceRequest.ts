@@ -7,23 +7,23 @@ import * as FluidStackApi from "../../../../index";
 /**
  * @example
  *     {
- *         name: "name",
- *         gpuType: FluidStackApi.GpuType.RtxA400016Gb,
- *         sshKeys: ["<ssh_key_name>"]
+ *         name: "my_instance_name",
+ *         gpuType: FluidStackApi.GpuType.RtxA500024Gb,
+ *         sshKey: "my_ssh_key",
+ *         operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia
  *     }
  */
 export interface CreateInstanceRequest {
-    /** The name of the instance */
-    name: string;
+    /** The custom name of the instance. */
+    name?: string;
+    /** The GPU type of the instance. */
     gpuType: FluidStackApi.GpuType;
-    /** The number of GPUs to attach to the instance */
+    /** The number of GPUs to attach to the instance. */
     gpuCount?: number;
-    /**
-     * The list of SSH key names to add to the instance
-     *
-     * These SSH keys are used to connect to the instance.
-     */
-    sshKeys: string[];
-    /** The operating system label to be used to create the instance */
+    /** The SSH key name to add to the instance. This SSH key is used to connect to the instance. */
+    sshKey: string;
+    /** The operating system label used to create the instance. */
     operatingSystemLabel?: FluidStackApi.SupportedOperatingSystem;
+    /** The region in which to create the instance. */
+    region?: FluidStackApi.Region;
 }

@@ -4,7 +4,7 @@
 
 import * as FluidStackApi from "../index";
 
-export interface ListInstanceResponse {
+export interface InstanceResponse {
     /** The unique identifier of the instance. */
     id: string;
     /** The current status of the instance. */

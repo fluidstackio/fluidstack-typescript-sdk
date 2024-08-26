@@ -7,8 +7,8 @@ import * as FluidStackApi from "../../api/index";
 import * as core from "../../core";
 
 export const InstanceStatus: core.serialization.Schema<serializers.InstanceStatus.Raw, FluidStackApi.InstanceStatus> =
-    core.serialization.enum_(["running", "pending", "unhealthy", "shutting_down", "terminated", "stopping", "stopped"]);
+    core.serialization.enum_(["running", "pending", "unhealthy", "terminated", "stopped"]);
 
 export declare namespace InstanceStatus {
-    type Raw = "running" | "pending" | "unhealthy" | "shutting_down" | "terminated" | "stopping" | "stopped";
+    type Raw = "running" | "pending" | "unhealthy" | "terminated" | "stopped";
 }

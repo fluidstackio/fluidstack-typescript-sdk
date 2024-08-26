@@ -5,35 +5,29 @@
 import * as serializers from "../index";
 import * as FluidStackApi from "../../api/index";
 import * as core from "../../core";
-import { ConfigId } from "./ConfigId";
-import { GpuModelResponse } from "./GpuModelResponse";
+import { GpuType } from "./GpuType";
+import { Region } from "./Region";
 
 export const ConfigurationResponse: core.serialization.ObjectSchema<
     serializers.ConfigurationResponse.Raw,
     FluidStackApi.ConfigurationResponse
 > = core.serialization.object({
-    id: ConfigId,
-    gpuModel: core.serialization.property("gpu_model", GpuModelResponse.optional()),
-    cpuModel: core.serialization.property("cpu_model", core.serialization.string().optional()),
-    gpuCount: core.serialization.property("gpu_count", core.serialization.number()),
-    cpuCount: core.serialization.property("cpu_count", core.serialization.number()),
-    nvmeStorageSizeGb: core.serialization.property("nvme_storage_size_gb", core.serialization.number()),
-    memorySizeMb: core.serialization.property("memory_size_mb", core.serialization.number()),
+    gpuType: core.serialization.property("gpu_type", GpuType),
+    gpuCounts: core.serialization.property("gpu_counts", core.serialization.list(core.serialization.number())),
+    pricePerGpuHr: core.serialization.property("price_per_gpu_hr", core.serialization.string()),
     estimatedProvisioningTimeMinutes: core.serialization.property(
         "estimated_provisioning_time_minutes",
         core.serialization.number().optional()
     ),
+    regions: core.serialization.list(Region),
 });
 
 export declare namespace ConfigurationResponse {
     interface Raw {
-        id: ConfigId.Raw;
-        gpu_model?: GpuModelResponse.Raw | null;
-        cpu_model?: string | null;
-        gpu_count: number;
-        cpu_count: number;
-        nvme_storage_size_gb: number;
-        memory_size_mb: number;
+        gpu_type: GpuType.Raw;
+        gpu_counts: number[];
+        price_per_gpu_hr: string;
         estimated_provisioning_time_minutes?: number | null;
+        regions: Region.Raw[];
     }
 }

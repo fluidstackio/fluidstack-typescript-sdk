@@ -26,4 +26,6 @@ export interface CreateInstanceRequest {
     operatingSystemLabel?: FluidStackApi.SupportedOperatingSystem;
     /** The region in which to create the instance. */
     region?: FluidStackApi.Region;
+    /** The volumes attached to the instance. */
+    volumes?: FluidStackApi.VolumeInstanceResponse[];
 }

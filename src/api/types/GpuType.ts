@@ -6,6 +6,7 @@ export type GpuType =
     | "RTX_A4000_16GB"
     | "RTX_A6000_48GB"
     | "RTX_A5000_24GB"
+    | "TESLA_V100_16GB"
     | "A100_PCIE_80GB"
     | "A40_48GB"
     | "A30_24GB"
@@ -16,9 +17,12 @@ export type GpuType =
     | "A100_NVLINK_80GB"
     | "A100_NVLINK_40GB"
     | "H100_SXM5_80GB"
+    | "H100_SXM4_80GB"
+    | "A10_24GB"
+    | "RTX_6000_24GB"
     | "H100_PCIE_80GB"
     | "H100_NVLINK_80GB"
-    | "RTX_6000_ADA_48GB"
+    | "RTX_A6000_ADA_48GB"
     | "L40_48GB"
     | "L4_24GB"
     | "T4_16GB";
@@ -27,6 +31,7 @@ export const GpuType = {
     RtxA400016Gb: "RTX_A4000_16GB",
     RtxA600048Gb: "RTX_A6000_48GB",
     RtxA500024Gb: "RTX_A5000_24GB",
+    TeslaV10016Gb: "TESLA_V100_16GB",
     A100Pcie80Gb: "A100_PCIE_80GB",
     A4048Gb: "A40_48GB",
     A3024Gb: "A30_24GB",
@@ -37,9 +42,12 @@ export const GpuType = {
     A100Nvlink80Gb: "A100_NVLINK_80GB",
     A100Nvlink40Gb: "A100_NVLINK_40GB",
     H100Sxm580Gb: "H100_SXM5_80GB",
+    H100Sxm480Gb: "H100_SXM4_80GB",
+    A1024Gb: "A10_24GB",
+    Rtx600024Gb: "RTX_6000_24GB",
     H100Pcie80Gb: "H100_PCIE_80GB",
     H100Nvlink80Gb: "H100_NVLINK_80GB",
-    Rtx6000Ada48Gb: "RTX_6000_ADA_48GB",
+    RtxA6000Ada48Gb: "RTX_A6000_ADA_48GB",
     L4048Gb: "L40_48GB",
     L424Gb: "L4_24GB",
     T416Gb: "T4_16GB",

@@ -16,3 +16,6 @@ export * from "./SshKeyResponse";
 export * from "./SupportedOperatingSystem";
 export * from "./ValidationErrorLocItem";
 export * from "./ValidationError";
+export * from "./VolumeInstanceResponseInputCostGbHr";
+export * from "./VolumeInstanceResponse";
+export * from "./VolumeStatus";

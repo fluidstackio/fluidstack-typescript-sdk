@@ -20,9 +20,11 @@ export interface ListInstanceResponse {
     /** The name provided when the instance was created. */
     name?: string;
     /** The current hourly price of the instance per processor based on its current status. */
-    currentRate?: number;
+    currentGpuHrCost?: number;
     /** The configuration used to create the instance. */
     configuration?: FluidStackApi.ConfigurationInstanceResponse;
     /** The creation date and time of the instance. */
     createdAt?: Date;
+    /** The volumes attached to the instance. */
+    volumes?: FluidStackApi.VolumeInstanceResponse[];
 }

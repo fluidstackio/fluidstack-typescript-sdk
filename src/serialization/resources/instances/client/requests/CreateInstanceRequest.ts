@@ -8,6 +8,7 @@ import * as core from "../../../../../core";
 import { GpuType } from "../../../../types/GpuType";
 import { SupportedOperatingSystem } from "../../../../types/SupportedOperatingSystem";
 import { Region } from "../../../../types/Region";
+import { VolumeInstanceResponse } from "../../../../types/VolumeInstanceResponse";
 
 export const CreateInstanceRequest: core.serialization.Schema<
     serializers.CreateInstanceRequest.Raw,
@@ -19,6 +20,7 @@ export const CreateInstanceRequest: core.serialization.Schema<
     sshKey: core.serialization.property("ssh_key", core.serialization.string()),
     operatingSystemLabel: core.serialization.property("operating_system_label", SupportedOperatingSystem.optional()),
     region: Region.optional(),
+    volumes: core.serialization.list(VolumeInstanceResponse).optional(),
 });
 
 export declare namespace CreateInstanceRequest {
@@ -29,5 +31,6 @@ export declare namespace CreateInstanceRequest {
         ssh_key: string;
         operating_system_label?: SupportedOperatingSystem.Raw | null;
         region?: Region.Raw | null;
+        volumes?: VolumeInstanceResponse.Raw[] | null;
     }
 }

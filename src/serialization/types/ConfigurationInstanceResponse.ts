@@ -7,6 +7,7 @@ import * as FluidStackApi from "../../api/index";
 import * as core from "../../core";
 import { EntityId } from "./EntityId";
 import { GpuModelResponse } from "./GpuModelResponse";
+import { Region } from "./Region";
 
 export const ConfigurationInstanceResponse: core.serialization.ObjectSchema<
     serializers.ConfigurationInstanceResponse.Raw,
@@ -23,6 +24,7 @@ export const ConfigurationInstanceResponse: core.serialization.ObjectSchema<
         "estimated_provisioning_time_minutes",
         core.serialization.number().optional()
     ),
+    region: Region,
 });
 
 export declare namespace ConfigurationInstanceResponse {
@@ -35,5 +37,6 @@ export declare namespace ConfigurationInstanceResponse {
         nvme_storage_size_gb: number;
         memory_size_gb: number;
         estimated_provisioning_time_minutes?: number | null;
+        region: Region.Raw;
     }
 }

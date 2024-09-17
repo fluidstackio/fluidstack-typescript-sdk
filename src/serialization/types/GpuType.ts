@@ -11,6 +11,7 @@ export const GpuType: core.serialization.Schema<serializers.GpuType.Raw, FluidSt
         "RTX_A4000_16GB",
         "RTX_A6000_48GB",
         "RTX_A5000_24GB",
+        "TESLA_V100_16GB",
         "A100_PCIE_80GB",
         "A40_48GB",
         "A30_24GB",
@@ -21,9 +22,12 @@ export const GpuType: core.serialization.Schema<serializers.GpuType.Raw, FluidSt
         "A100_NVLINK_80GB",
         "A100_NVLINK_40GB",
         "H100_SXM5_80GB",
+        "H100_SXM4_80GB",
+        "A10_24GB",
+        "RTX_6000_24GB",
         "H100_PCIE_80GB",
         "H100_NVLINK_80GB",
-        "RTX_6000_ADA_48GB",
+        "RTX_A6000_ADA_48GB",
         "L40_48GB",
         "L4_24GB",
         "T4_16GB",
@@ -34,6 +38,7 @@ export declare namespace GpuType {
         | "RTX_A4000_16GB"
         | "RTX_A6000_48GB"
         | "RTX_A5000_24GB"
+        | "TESLA_V100_16GB"
         | "A100_PCIE_80GB"
         | "A40_48GB"
         | "A30_24GB"
@@ -44,9 +49,12 @@ export declare namespace GpuType {
         | "A100_NVLINK_80GB"
         | "A100_NVLINK_40GB"
         | "H100_SXM5_80GB"
+        | "H100_SXM4_80GB"
+        | "A10_24GB"
+        | "RTX_6000_24GB"
         | "H100_PCIE_80GB"
         | "H100_NVLINK_80GB"
-        | "RTX_6000_ADA_48GB"
+        | "RTX_A6000_ADA_48GB"
         | "L40_48GB"
         | "L4_24GB"
         | "T4_16GB";

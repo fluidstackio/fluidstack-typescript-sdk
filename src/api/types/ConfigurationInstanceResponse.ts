@@ -19,4 +19,5 @@ export interface ConfigurationInstanceResponse {
     /** The amount of RAM memory in the configuration. */
     memorySizeGb: number;
     estimatedProvisioningTimeMinutes?: number;
+    region: FluidStackApi.Region;
 }

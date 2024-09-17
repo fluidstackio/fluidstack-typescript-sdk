@@ -7,6 +7,7 @@ import * as FluidStackApi from "../../api/index";
 import * as core from "../../core";
 import { InstanceStatus } from "./InstanceStatus";
 import { ConfigurationInstanceResponse } from "./ConfigurationInstanceResponse";
+import { VolumeInstanceResponse } from "./VolumeInstanceResponse";
 
 export const InstanceResponse: core.serialization.ObjectSchema<
     serializers.InstanceResponse.Raw,
@@ -19,9 +20,10 @@ export const InstanceResponse: core.serialization.ObjectSchema<
     sshKeys: core.serialization.property("ssh_keys", core.serialization.list(core.serialization.string()).optional()),
     ipAddress: core.serialization.property("ip_address", core.serialization.string().optional()),
     name: core.serialization.string().optional(),
-    currentRate: core.serialization.property("current_rate", core.serialization.number().optional()),
+    currentGpuHrCost: core.serialization.property("current_gpu_hr_cost", core.serialization.number().optional()),
     configuration: ConfigurationInstanceResponse.optional(),
     createdAt: core.serialization.property("created_at", core.serialization.date().optional()),
+    volumes: core.serialization.list(VolumeInstanceResponse).optional(),
 });
 
 export declare namespace InstanceResponse {
@@ -33,8 +35,9 @@ export declare namespace InstanceResponse {
         ssh_keys?: string[] | null;
         ip_address?: string | null;
         name?: string | null;
-        current_rate?: number | null;
+        current_gpu_hr_cost?: number | null;
         configuration?: ConfigurationInstanceResponse.Raw | null;
         created_at?: string | null;
+        volumes?: VolumeInstanceResponse.Raw[] | null;
     }
 }

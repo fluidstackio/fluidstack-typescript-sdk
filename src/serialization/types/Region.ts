@@ -7,9 +7,40 @@ import * as FluidStackApi from "../../api/index";
 import * as core from "../../core";
 
 export const Region: core.serialization.Schema<serializers.Region.Raw, FluidStackApi.Region> = core.serialization.enum_(
-    ["NORWAY", "CANADA", "SWEDEN", "NETHERLANDS"]
+    [
+        "NORWAY",
+        "CANADA",
+        "SWEDEN",
+        "NETHERLANDS",
+        "TEXAS_USA",
+        "CALIFORNIA_USA",
+        "ARIZONA_USA",
+        "VIRGINIA_USA",
+        "ILLINOIS_USA",
+        "JAPAN",
+        "UTAH_USA",
+        "WASHINGTON_USA",
+        "GERMANY",
+        "INDIA",
+        "ISRAEL",
+    ]
 );
 
 export declare namespace Region {
-    type Raw = "NORWAY" | "CANADA" | "SWEDEN" | "NETHERLANDS";
+    type Raw =
+        | "NORWAY"
+        | "CANADA"
+        | "SWEDEN"
+        | "NETHERLANDS"
+        | "TEXAS_USA"
+        | "CALIFORNIA_USA"
+        | "ARIZONA_USA"
+        | "VIRGINIA_USA"
+        | "ILLINOIS_USA"
+        | "JAPAN"
+        | "UTAH_USA"
+        | "WASHINGTON_USA"
+        | "GERMANY"
+        | "INDIA"
+        | "ISRAEL";
 }

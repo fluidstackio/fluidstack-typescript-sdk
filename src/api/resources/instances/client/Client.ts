@@ -28,6 +28,7 @@ export class Instances {
     /**
      * This endpoint is used to retrieve a list of all instances associated with the authenticated user.
      *
+     * @param {FluidStackApi.InstancesListRequest} request
      * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link FluidStackApi.UnauthorizedError}
@@ -36,7 +37,16 @@ export class Instances {
      * @example
      *     await fluidStackApi.instances.list()
      */
-    public async list(requestOptions?: Instances.RequestOptions): Promise<FluidStackApi.ListInstanceResponse[]> {
+    public async list(
+        request: FluidStackApi.InstancesListRequest = {},
+        requestOptions?: Instances.RequestOptions
+    ): Promise<FluidStackApi.ListInstanceResponse[]> {
+        const { page } = request;
+        const _queryParams: Record<string, string | string[] | object | object[]> = {};
+        if (page != null) {
+            _queryParams["page"] = page.toString();
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FluidStackApiEnvironment.Default,
@@ -50,11 +60,12 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.4",
+                "X-Fern-SDK-Version": "0.0.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
             contentType: "application/json",
+            queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -124,16 +135,14 @@ export class Instances {
      *
      * @example
      *     await fluidStackApi.instances.create({
-     *         name: "my_instance_name",
-     *         gpuType: FluidStackApi.GpuType.RtxA500024Gb,
-     *         sshKey: "my_ssh_key",
-     *         operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia
+     *         gpuType: FluidStackApi.GpuType.RtxA400016Gb,
+     *         sshKey: "ssh_key"
      *     })
      */
     public async create(
         request: FluidStackApi.CreateInstanceRequest,
         requestOptions?: Instances.RequestOptions
-    ): Promise<FluidStackApi.CreateInstanceResponse> {
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FluidStackApiEnvironment.Default,
@@ -147,7 +156,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.4",
+                "X-Fern-SDK-Version": "0.0.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -158,12 +167,7 @@ export class Instances {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return await serializers.CreateInstanceResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                breadcrumbsPrefix: ["response"],
-            });
+            return;
         }
 
         if (_response.error.reason === "status-code") {
@@ -211,6 +215,7 @@ export class Instances {
 
     /**
      * This endpoint is used to retrieve a single instance associated with the authenticated user by its ID.
+     * This endpoint returns HTTP 202 Accepted code if the instance is still pending. Otherwise, it returns HTTP 200 OK code.
      *
      * @param {string} instanceId
      * @param {Instances.RequestOptions} requestOptions - Request-specific configuration.
@@ -238,7 +243,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.4",
+                "X-Fern-SDK-Version": "0.0.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -325,7 +330,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.4",
+                "X-Fern-SDK-Version": "0.0.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -410,7 +415,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.4",
+                "X-Fern-SDK-Version": "0.0.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
@@ -500,7 +505,7 @@ export class Instances {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "fluidstack",
-                "X-Fern-SDK-Version": "0.0.4",
+                "X-Fern-SDK-Version": "0.0.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },

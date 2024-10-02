@@ -7,10 +7,8 @@ import * as FluidStackApi from "../../../../index";
 /**
  * @example
  *     {
- *         name: "my_instance_name",
- *         gpuType: FluidStackApi.GpuType.RtxA500024Gb,
- *         sshKey: "my_ssh_key",
- *         operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia
+ *         gpuType: FluidStackApi.GpuType.RtxA400016Gb,
+ *         sshKey: "ssh_key"
  *     }
  */
 export interface CreateInstanceRequest {

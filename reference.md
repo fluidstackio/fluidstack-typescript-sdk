@@ -1,6 +1,6 @@
 ## Instances
 
-<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">list</a>() -> FluidStackApi.ListInstanceResponse[]</code> </summary>
+<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">list</a>({ ...params }) -> FluidStackApi.ListInstanceResponse[]</code> </summary>
 
 <dl>
 
@@ -58,6 +58,16 @@ await fluidStackApi.instances.list();
 
 <dd>
 
+**request: `FluidStackApi.InstancesListRequest`**
+
+</dd>
+
+</dl>
+
+<dl>
+
+<dd>
+
 **requestOptions: `Instances.RequestOptions`**
 
 </dd>
@@ -73,7 +83,7 @@ await fluidStackApi.instances.list();
 </dl>
 </details>
 
-<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">create</a>({ ...params }) -> FluidStackApi.CreateInstanceResponse</code> </summary>
+<details><summary> <code>fluidStackApi.instances.<a href="./src/api/resources/instances/client/Client.ts">create</a>({ ...params }) -> void</code> </summary>
 
 <dl>
 
@@ -113,10 +123,8 @@ If no values are provided for the `gpu_count` and `operating_system_label`, the 
 
 ```ts
 await fluidStackApi.instances.create({
-    name: "my_instance_name",
-    gpuType: FluidStackApi.GpuType.RtxA500024Gb,
-    sshKey: "my_ssh_key",
-    operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia,
+    gpuType: FluidStackApi.GpuType.RtxA400016Gb,
+    sshKey: "ssh_key",
 });
 ```
 
@@ -180,6 +188,7 @@ await fluidStackApi.instances.create({
 <dd>
 
 This endpoint is used to retrieve a single instance associated with the authenticated user by its ID.
+This endpoint returns HTTP 202 Accepted code if the instance is still pending. Otherwise, it returns HTTP 200 OK code.
 
 </dd>
 
@@ -497,7 +506,7 @@ await fluidStackApi.instances.start("{instance_id}");
 
 ## SshKeys
 
-<details><summary> <code>fluidStackApi.sshKeys.<a href="./src/api/resources/sshKeys/client/Client.ts">list</a>() -> FluidStackApi.SshKeyResponse[]</code> </summary>
+<details><summary> <code>fluidStackApi.sshKeys.<a href="./src/api/resources/sshKeys/client/Client.ts">list</a>({ ...params }) -> FluidStackApi.SshKeyResponse[]</code> </summary>
 
 <dl>
 
@@ -550,6 +559,16 @@ await fluidStackApi.sshKeys.list();
 <dl>
 
 <dd>
+
+<dl>
+
+<dd>
+
+**request: `FluidStackApi.SshKeysListRequest`**
+
+</dd>
+
+</dl>
 
 <dl>
 

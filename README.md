@@ -1,6 +1,6 @@
 # FluidStack TypeScript Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=FluidStack%2FTypeScript)
 [![npm shield](https://img.shields.io/npm/v/fluidstack)](https://www.npmjs.com/package/fluidstack)
 
 The FluidStack TypeScript library provides convenient access to the FluidStack API from TypeScript.
@@ -20,10 +20,8 @@ import { FluidStackApiClient, FluidStackApi } from "fluidstack";
 
 const fluidStackApi = new FluidStackApiClient({ apiKey: "YOUR_API_KEY" });
 await fluidStackApi.instances.create({
-    name: "my_instance_name",
-    gpuType: FluidStackApi.GpuType.RtxA500024Gb,
-    sshKey: "my_ssh_key",
-    operatingSystemLabel: FluidStackApi.SupportedOperatingSystem.Ubuntu2004LtsNvidia,
+    gpuType: FluidStackApi.GpuType.RtxA400016Gb,
+    sshKey: "ssh_key",
 });
 ```
 
@@ -35,10 +33,10 @@ following namespace:
 ```typescript
 import { FluidStackApi } from "fluidstack";
 
-const request: FluidStackApi.CreateInstanceRequest = {
+const request: FluidStackApi.InstancesListRequest = {
     ...
 };
-const response = await fluidStackApi.create(request);
+const response = await fluidStackApi.list(request);
 ```
 
 ## Exception Handling
